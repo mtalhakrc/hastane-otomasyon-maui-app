@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hastane-otomasyon-maui-app", "hastane-otomasyon-maui-app\hastane-otomasyon-maui-app.csproj", "{565D2852-7985-474B-96F8-AACD0D9F3860}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web-api", "web-api\web-api.csproj", "{EAA55F53-C656-417C-86EF-14B53C509071}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{565D2852-7985-474B-96F8-AACD0D9F3860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{565D2852-7985-474B-96F8-AACD0D9F3860}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{565D2852-7985-474B-96F8-AACD0D9F3860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA55F53-C656-417C-86EF-14B53C509071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA55F53-C656-417C-86EF-14B53C509071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA55F53-C656-417C-86EF-14B53C509071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA55F53-C656-417C-86EF-14B53C509071}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
