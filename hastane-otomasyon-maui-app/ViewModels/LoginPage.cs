@@ -23,19 +23,26 @@ namespace hastane_otomasyon_maui_app.ViewModels
         [RelayCommand]
         public async void Login()
         {
+            var success = false;
             try
             {
-                var success = await _authService.LoginAsync(Email, Password);
+                success = await _authService.LoginAsync(Email, Password);
                 Console.WriteLine(success);
-                
-                
-                
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+                await Shell.Current.DisplayAlert("Hata", ex.Message, "Tamam");
+                return;
             }
 
+            if (!success)
+            {
+                await Shell.Current.DisplayAlert("Hata","Bir hata meydana geldi", "Tamam");
+                return;
+            }
+
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
+        
     }
 }

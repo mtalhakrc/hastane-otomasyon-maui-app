@@ -6,9 +6,9 @@ namespace hastane_otomasyon_maui_app.Services;
 
 public interface IAuthService
 {
-    public Task<bool> IsAuthenticatedAsync();
+    public bool IsAuthenticated();
     public Task<bool> LoginAsync(string username,  string password);
-    public Task<bool> Logout();
+    public Task<bool> LogoutAsync();
 
 }
 
@@ -24,9 +24,8 @@ public class AuthService: IAuthService
     private const string AccessKey = "AccessKey";
     private const string RefreshKey = "RefreshKey";
     private const string IsAuthenticatedKey = "IsAuthenticated";
-    public async Task<bool> IsAuthenticatedAsync()
+    public bool IsAuthenticated()
     {
-        await Task.Delay(1000);
         var authState = Preferences.Default.Get<bool>(IsAuthenticatedKey, false);
         return authState;
     }
@@ -54,9 +53,11 @@ public class AuthService: IAuthService
         Preferences.Default.Set<string>(RefreshKey,response.RefreshToken!);
         return true;
     }
-    public Task<bool> Logout() 
+    public Task<bool> LogoutAsync() 
     {
         Preferences.Default.Remove(AccessKey);
+        Preferences.Default.Remove(RefreshKey);
+        Preferences.Default.Remove(IsAuthenticatedKey);
         return Task.FromResult(true);
     }
 }
