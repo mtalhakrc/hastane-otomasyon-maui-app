@@ -5,9 +5,16 @@ using hastane_otomasyon_maui_app.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
 
+
+public interface IClientService
+{
+    Task Register(RegisterModel model);
+    Task<LoginResponse> Login(LoginModel model);
+}
+
 namespace hastane_otomasyon_maui_app.Services
 {
-    public class ClientService
+    public class ClientService: IClientService
     {
         private readonly IHttpClientFactory _httpClientFactory;
         public ClientService(IHttpClientFactory httpClientFactory)
@@ -27,30 +34,20 @@ namespace hastane_otomasyon_maui_app.Services
             await Shell.Current.DisplayAlert("Alert", result.ReasonPhrase, "Ok");
         }
 
-        public async Task Login(LoginModel model)
+        public async Task<LoginResponse> Login(LoginModel model)
         {
-            //model.Email = "maui@gmail.com"; model.Password = "Maui@123";
             var httpClient = _httpClientFactory.CreateClient("custom-httpclient");
             var result = await httpClient.PostAsJsonAsync("/login", model);
-            var response = await result.Content.ReadFromJsonAsync<LoginResponse>();
             if (result.StatusCode != HttpStatusCode.OK)
             {
-                await Shell.Current.DisplayAlert("Alert", "wrong credentials!", "Ok");
-                return;
+                throw new Exception("wrong credentials");
             }
-            
-            if (response is not null)
+            var response = await result.Content.ReadFromJsonAsync<LoginResponse>();
+            if (response is null)
             {
-                var serializeResponse = JsonSerializer.Serialize(
-                    new LoginResponse() { AccessToken = response.AccessToken, RefreshToken = response.RefreshToken, UserName = model.Email });
-                
-                Preferences.Default.Set("Authentication", serializeResponse);
+                throw new Exception("internal server error");
             }
-            Console.WriteLine(response.AccessToken);
-            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",response.AccessToken);
-
-
-            result =await httpClient.GetAsync("/api/User/me");
+            return response;
         }
     }
 }

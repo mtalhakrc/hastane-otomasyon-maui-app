@@ -28,9 +28,8 @@ public static class MauiProgram
         {
             httpClient.BaseAddress = new Uri("http://localhost:5000");
         });
-        
+        builder.Services.AddScoped<IClientService,ClientService>();
         builder.Services.AddScoped<IAuthService,AuthService>();
-        builder.Services.AddSingleton<ClientService>();
         
         
         builder.Services.AddTransient<LoadingPage>();

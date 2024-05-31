@@ -25,8 +25,10 @@ namespace hastane_otomasyon_maui_app.ViewModels
         {
             try
             {
-                Console.WriteLine(Email);
-                var success = await _authService.Login(Email, Password);
+                var success = await _authService.LoginAsync(Email, Password);
+                Console.WriteLine(success);
+                
+                
                 
             }
             catch (Exception ex)
