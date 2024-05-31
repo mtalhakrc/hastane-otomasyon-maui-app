@@ -1,4 +1,5 @@
-﻿using hastane_otomasyon_maui_app.Services;
+﻿using hastane_otomasyon_maui_app.Pages;
+using hastane_otomasyon_maui_app.Services;
 using hastane_otomasyon_maui_app.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -28,7 +29,10 @@ public static class MauiProgram
             httpClient.BaseAddress = new Uri("http://localhost:5000");
         });
         builder.Services.AddSingleton<ClientService>();
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<AuthService>();
+        builder.Services.AddTransient<LoadingPage>();
+        builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<ProfilePage>();
         builder.Services.AddSingleton<MainPageViewModel>();
         return builder.Build();
     }
