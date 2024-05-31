@@ -1,20 +1,15 @@
 using hastane_otomasyon_maui_app.Services;
+using hastane_otomasyon_maui_app.ViewModels;
 
 namespace hastane_otomasyon_maui_app.Pages;
 
 public partial class LoginPage : ContentPage
 {
-    private readonly AuthService _authService;
-
-    public LoginPage(AuthService authService)
+    public LoginPage(LoginPageViewModel viewModel)
 	{
 		InitializeComponent();
-        _authService = authService;
-    }
+		this.BindingContext = viewModel;
+	}
 
-    private async void Button_Clicked(object sender, EventArgs e)
-    {
-        _authService.Login();
-		await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-    }
+  
 }
