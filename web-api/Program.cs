@@ -14,7 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 
 //Starting...
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme,
+    o =>
+    {
+        o.BearerTokenExpiration = TimeSpan.FromDays(360);
+    });
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
