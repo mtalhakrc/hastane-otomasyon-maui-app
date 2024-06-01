@@ -12,6 +12,7 @@ public interface IClientService
     Task Register(RegisterModel model);
     Task<LoginResponse> Login(LoginModel model);
     Task<MeModel> GetMe();
+    Task ResetPassword(ResetPasswordModel model);
 }
 
 namespace hastane_otomasyon_maui_app.Services
@@ -80,6 +81,15 @@ namespace hastane_otomasyon_maui_app.Services
             }
             return response;
         }
-        
+        public async Task ResetPassword(ResetPasswordModel model)
+        {
+            var httpClient = _httpClientFactory.CreateClient("custom-httpclient");
+            var result = await httpClient.PostAsJsonAsync("/api/User/reset-password", model);
+            if (result.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(result.ReasonPhrase);
+            }
+            return;
+        }
     }
 }

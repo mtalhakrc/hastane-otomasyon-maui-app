@@ -10,6 +10,7 @@ public interface IAuthService
     public Task<bool> LoginAsync(string username,  string password);
     public Task<bool> LogoutAsync();
     Task<bool> SaveMe();
+    Task<MeModel> GetMeModel();
 
 }
 
@@ -74,4 +75,12 @@ public class AuthService: IAuthService
         Preferences.Default.Set<string>(StorageKeys.Me, memodelJson);
         return true;
     }
+
+    public async Task<MeModel> GetMeModel()
+    {
+        var mestr = Preferences.Default.Get(StorageKeys.Me, "");
+        var memodel = JsonSerializer.Deserialize<MeModel>(mestr);
+        return memodel!;
+    }
+
 }
