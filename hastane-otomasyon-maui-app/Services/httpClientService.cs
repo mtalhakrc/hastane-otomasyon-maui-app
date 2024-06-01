@@ -4,12 +4,14 @@ using System.Net.Http.Headers;
 using hastane_otomasyon_maui_app.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
+using hastane_otomasyon_maui_app.Services;
 
 
 public interface IClientService
 {
     Task Register(RegisterModel model);
     Task<LoginResponse> Login(LoginModel model);
+    Task<MeModel> GetMe();
 }
 
 namespace hastane_otomasyon_maui_app.Services
@@ -38,9 +40,14 @@ namespace hastane_otomasyon_maui_app.Services
         {
             var httpClient = _httpClientFactory.CreateClient("custom-httpclient");
             var result = await httpClient.PostAsJsonAsync("/login", model);
-            if (result.StatusCode != HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.Unauthorized)
             {
                 throw new Exception("wrong credentials");
+            }
+
+            if (result.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception("an error occured");
             }
             var response = await result.Content.ReadFromJsonAsync<LoginResponse>();
             if (response is null)
@@ -49,5 +56,30 @@ namespace hastane_otomasyon_maui_app.Services
             }
             return response;
         }
+
+        public async Task<MeModel> GetMe()
+        {
+            var httpClient = _httpClientFactory.CreateClient("custom-httpclient");
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", Preferences.Default.Get(StorageKeys.AccessKey,""));
+            
+            var result = await httpClient.GetAsync("/api/User/me");
+            if (result.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new Exception("wrong credentials");
+            }
+
+            if (result.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception("an error occured");
+            }
+            var response = await result.Content.ReadFromJsonAsync<MeModel>();
+            if (response is null)
+            {
+                throw new Exception("internal server error");
+            }
+            return response;
+        }
+        
     }
 }

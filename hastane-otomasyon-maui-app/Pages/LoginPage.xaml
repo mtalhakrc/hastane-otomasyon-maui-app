@@ -14,7 +14,6 @@
             HorizontalOptions="Center" />
 
         
-        <Label Text="Please Login an Account" Margin="0,0,0,10" />
         <Label Text="Email Address" />
         <Entry Text="{Binding Email}" Margin="0,0,0,5"></Entry>
         <Label Text="Password" />

@@ -11,10 +11,4 @@ public partial class ProfilePage : ContentPage
 		InitializeComponent();
         _authService = authService;
     }
-
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        //_authService.Logout();
-        Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-    }
 }

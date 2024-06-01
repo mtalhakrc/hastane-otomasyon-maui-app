@@ -41,6 +41,14 @@ namespace hastane_otomasyon_maui_app.ViewModels
                 return;
             }
 
+
+            success = await _authService.SaveMe();
+            if (!success)
+            {
+                await Shell.Current.DisplayAlert("Hata","Bir hata meydana geldi", "Tamam");
+            }
+            
+            
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
         

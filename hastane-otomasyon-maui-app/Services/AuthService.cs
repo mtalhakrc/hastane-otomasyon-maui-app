@@ -9,11 +9,21 @@ public interface IAuthService
     public bool IsAuthenticated();
     public Task<bool> LoginAsync(string username,  string password);
     public Task<bool> LogoutAsync();
+    Task<bool> SaveMe();
 
+}
+
+public static class StorageKeys
+{
+    public const string AccessKey = "AccessKey";
+    public const string RefreshKey = "RefreshKey";
+    public const string IsAuthenticatedKey = "IsAuthenticated";
+    public const string Me = "Me";
 }
 
 public class AuthService: IAuthService
 {
+    
     private readonly IClientService _clientService;
 
     public AuthService(IClientService clientService)
@@ -21,12 +31,10 @@ public class AuthService: IAuthService
         this._clientService=clientService;
     }
     
-    private const string AccessKey = "AccessKey";
-    private const string RefreshKey = "RefreshKey";
-    private const string IsAuthenticatedKey = "IsAuthenticated";
+
     public bool IsAuthenticated()
     {
-        var authState = Preferences.Default.Get<bool>(IsAuthenticatedKey, false);
+        var authState = Preferences.Default.Get<bool>(StorageKeys.IsAuthenticatedKey, false);
         return authState;
     }
     public async Task<bool> LoginAsync(string email,  string password)
@@ -48,16 +56,22 @@ public class AuthService: IAuthService
         var serializeResponse = JsonSerializer.Serialize(
             new LoginResponse() { AccessToken = response.AccessToken, RefreshToken = response.RefreshToken, UserName = response.UserName });
         
-        Preferences.Default.Set<bool>(IsAuthenticatedKey, true);
-        Preferences.Default.Set<string>(AccessKey,response.AccessToken!);
-        Preferences.Default.Set<string>(RefreshKey,response.RefreshToken!);
+        Preferences.Default.Set<bool>(StorageKeys.IsAuthenticatedKey, true);
+        Preferences.Default.Set<string>(StorageKeys.AccessKey,response.AccessToken!);
+        Preferences.Default.Set<string>(StorageKeys.RefreshKey,response.RefreshToken!);
         return true;
     }
     public Task<bool> LogoutAsync() 
     {
-        Preferences.Default.Remove(AccessKey);
-        Preferences.Default.Remove(RefreshKey);
-        Preferences.Default.Remove(IsAuthenticatedKey);
+        Preferences.Default.Clear();
         return Task.FromResult(true);
+    }
+
+    public async Task<bool> SaveMe()
+    {
+        var memodel = await _clientService.GetMe();
+        string memodelJson = JsonSerializer.Serialize(memodel);
+        Preferences.Default.Set<string>(StorageKeys.Me, memodelJson);
+        return true;
     }
 }

@@ -11,9 +11,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAuthentication();
+
 builder.Services.AddScoped<IRandevuService, RandevuService>();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().
+    AddRoles<IdentityRole>().
+    AddEntityFrameworkStores<AppDbContext>();
+
+
 
 builder.Services.AddSwaggerGen(options =>
 {
