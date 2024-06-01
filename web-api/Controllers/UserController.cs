@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using web_api.Dtos;
+using web_api.Models;
 using web_api.ViewModels;
 
 namespace web_api.Controllers;
@@ -13,11 +14,13 @@ public class UserController :Controller
 {
     private readonly ILogger<UserController> _logger;
     private readonly UserManager<IdentityUser> _userManager;
-
-    public UserController(ILogger<UserController> logger, UserManager<IdentityUser> userManager)
+    private readonly SignInManager<IdentityUser> _signInManager;
+    
+    public UserController(ILogger<UserController> logger, UserManager<IdentityUser> userManager, SignInManager<IdentityUser>signInManager)
     {
         _logger = logger;
         _userManager = userManager;
+        _signInManager = signInManager;
     }
     
     [HttpGet("me")]
@@ -77,5 +80,44 @@ public class UserController :Controller
         }
 
         return BadRequest(ModelState);
+    }
+    
+    [HttpPost]
+    [Route("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordDto model)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+        try
+        {
+            if (model is null)
+                return BadRequest("");
+
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                return BadRequest("No user found!");
+
+            Microsoft.AspNetCore.Identity.SignInResult checkOldPassword =
+                await _signInManager.PasswordSignInAsync(user.UserName, model.OldPassword, false, false);
+
+            if (!checkOldPassword.Succeeded)
+                return BadRequest("Old password does not matched.");
+
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            if (string.IsNullOrEmpty(resetToken))
+                return BadRequest("Error while generating reset token.");
+
+            var result = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+
+            if (result.Succeeded)
+                return Ok();
+            else
+                return BadRequest();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
     }
 }
