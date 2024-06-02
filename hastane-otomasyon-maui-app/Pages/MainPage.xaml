@@ -7,7 +7,13 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center">
+            Margin="30,30"
+            VerticalOptions="Start">
+            
+            
+            <Label Text="{Binding UserName, StringFormat='Sayın {0}  Hoşgeldiniz'}" FontAttributes="Bold"  />
+
+
         </VerticalStackLayout>
     </ScrollView>
 

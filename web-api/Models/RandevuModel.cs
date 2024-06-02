@@ -4,15 +4,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace web_api.Models;
 
-public class Randevu
-{
     public class RandevuModel
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
@@ -20,14 +18,12 @@ public class Randevu
         [StringLength(100)]
         public string Isim { get; set; }
 
-        [Required]
-        public string DoctorID { get; set; }
+        public string? DoctorID { get; set; }
 
         [ForeignKey("DoctorID")]
         public IdentityUser Doctor { get; set; }
 
-        [Required]
-        public string HastaID { get; set; }
+        public string? HastaID { get; set; }
 
         [ForeignKey("HastaID")]
         public IdentityUser Hasta { get; set; }
@@ -37,4 +33,3 @@ public class Randevu
 
         public string Not { get; set; }
     }
-}

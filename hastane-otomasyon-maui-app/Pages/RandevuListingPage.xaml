@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="hastane_otomasyon_maui_app.Pages.RandevuListingPage"
+             Title="Randevularım">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="OnItemAdded" Text="+" Order="Primary">
+            <ToolbarItem.IconImageSource>
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ListView
+        x:Name="ListView"
+        Margin="20"
+        ItemSelected="OnListItemSelected"
+        HasUnevenRows="True">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame Margin="0,5,0,5" Padding="10" BorderColor="LightGray" CornerRadius="5" HasShadow="True">
+                        <StackLayout Orientation="Vertical">
+                            <Label HorizontalOptions="StartAndExpand" Text="{Binding Isim}" FontSize="18" TextColor="Black" FontAttributes="Bold"/>
+                            <Label HorizontalOptions="StartAndExpand" Text="{Binding Doctor.UserName}" FontSize="16" TextColor="DarkGray"/>
+                            <Label HorizontalOptions="StartAndExpand" Text="{Binding Tarih, StringFormat='{0:dd MMM yyyy HH:mm}'}" FontSize="16" TextColor="Gray"/>
+                            <Label HorizontalOptions="StartAndExpand" Text="{Binding Not}" FontSize="14" TextColor="Gray"/>
+                        </StackLayout>
+                    </Frame>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

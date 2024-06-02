@@ -13,10 +13,12 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddAuthentication();
 
 builder.Services.AddScoped<IRandevuService, RandevuService>();
+builder.Services.AddScoped<IRandevuService, RandevuService>();
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().
     AddRoles<IdentityRole>().
     AddEntityFrameworkStores<AppDbContext>();
+
 
 
 
@@ -43,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.MapIdentityApi<IdentityUser>();
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

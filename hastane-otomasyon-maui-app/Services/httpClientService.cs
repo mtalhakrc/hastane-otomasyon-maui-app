@@ -78,7 +78,7 @@ namespace hastane_otomasyon_maui_app.Services
             if (response is null)
             {
                 throw new Exception("internal server error");
-            }
+            }   
             return response;
         }
         public async Task ResetPassword(ResetPasswordModel model)

@@ -156,6 +156,35 @@ namespace web_api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Randevular",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Isim = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DoctorID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    HastaID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Not = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Randevular", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Randevular_AspNetUsers_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Randevular_AspNetUsers_HastaID",
+                        column: x => x.HastaID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +223,16 @@ namespace web_api.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Randevular_DoctorID",
+                table: "Randevular",
+                column: "DoctorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Randevular_HastaID",
+                table: "Randevular",
+                column: "HastaID");
         }
 
         /// <inheritdoc />
@@ -213,6 +252,9 @@ namespace web_api.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Randevular");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

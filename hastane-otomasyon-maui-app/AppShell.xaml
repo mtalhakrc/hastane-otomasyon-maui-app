@@ -29,9 +29,9 @@
             Route="MainPage" />
 
         <ShellContent
-            Title="Listing"
-            ContentTemplate="{DataTemplate pages:ListingPage}"
-            Route="ListingPage" />
+            Title="Randevularım"
+            ContentTemplate="{DataTemplate pages:RandevuListingPage}"
+            Route="RandevuListingPage" />
 
         <ShellContent
             Title="Profile"

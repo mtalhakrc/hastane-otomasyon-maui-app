@@ -30,17 +30,22 @@ public static class MauiProgram
         });
         builder.Services.AddScoped<IClientService,ClientService>();
         builder.Services.AddScoped<IAuthService,AuthService>();
+        builder.Services.AddScoped<IRandevuService,RandevuService>();
         
         
         builder.Services.AddTransient<LoadingPage>();
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<RandevuListingPage>();
+        builder.Services.AddTransient<RandevuEditPage>();
         
         builder.Services.AddTransient<MainPageViewModel>();
         builder.Services.AddTransient<LoginPageViewModel>();
         builder.Services.AddTransient<LoadingPageViewModel>();
         builder.Services.AddTransient<ProfilePageViewModel>();
+        builder.Services.AddTransient<RandevuListingPageViewModel>();
+        builder.Services.AddTransient<RandevuEditPageViewModel>();
         return builder.Build();
     }
 }
