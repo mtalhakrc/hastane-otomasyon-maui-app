@@ -31,8 +31,6 @@ public class RandevuService : IRandevuService
     private HttpClient CreateHttpClient()
     {
         var httpClient = _httpClientFactory.CreateClient("custom-httpclient");
-        httpClient.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", Preferences.Default.Get(StorageKeys.AccessKey, ""));
         return httpClient;
     }
 
@@ -115,7 +113,7 @@ public class RandevuService : IRandevuService
             throw new Exception("wrong credentials");
         }
 
-        if (result.StatusCode != HttpStatusCode.NoContent)
+        if (result.StatusCode != HttpStatusCode.OK)
         {
             throw new Exception("an error occured");
         }

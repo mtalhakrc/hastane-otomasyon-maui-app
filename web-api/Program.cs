@@ -13,7 +13,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 builder.Services.AddAuthentication();
 
 builder.Services.AddScoped<IRandevuService, RandevuService>();
-builder.Services.AddScoped<IRandevuService, RandevuService>();
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().
     AddRoles<IdentityRole>().
@@ -43,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.MapIdentityApi<IdentityUser>();
 
 

@@ -15,5 +15,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
         Routing.RegisterRoute(nameof(RandevuListingPage), typeof(RandevuListingPage));
         Routing.RegisterRoute(nameof(RandevuEditPage), typeof(RandevuEditPage));
+        Routing.RegisterRoute("RandevuEditPage/detail", typeof(RandevuEditPage));
     }
 }

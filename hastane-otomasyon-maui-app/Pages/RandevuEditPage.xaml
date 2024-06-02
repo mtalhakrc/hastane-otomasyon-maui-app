@@ -1,12 +1,81 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:hastane_otomasyon_maui_app.ViewModels"
+             xmlns:global="clr-namespace:"
              x:Class="hastane_otomasyon_maui_app.Pages.RandevuEditPage"
-             Title="ListingPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Listing Page"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="global:RandevuEditPageViewModel"
+             Title="edit/create randevu">
+    <ContentPage.Resources>
+    </ContentPage.Resources>
+    
+    <StackLayout Margin="20" Spacing="10">
+        <Entry Placeholder="İsim" Text="{Binding Item.Isim}" />
+        <DatePicker Date="{Binding Item.Tarih}" />
+        <Entry Placeholder="Not" Text="{Binding Item.Not}" />
+
+        <Label Text="Doktor" FontSize="20" FontAttributes="Bold"/>
+        <Picker Title="Doktor Seçin" SelectedItem="{Binding Item.DoctorID, Mode=TwoWay}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Doktor 1</x:String>
+                    <x:String>Doktor 2</x:String>
+                    <x:String>Doktor 3</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Label Text="Hasta" FontSize="20" FontAttributes="Bold"/>
+        <Picker Title="Hasta Seçin" SelectedItem="{Binding Item.HastaID, Mode=TwoWay}">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Hasta 1</x:String>
+                    <x:String>Hasta 2</x:String>
+                    <x:String>Hasta 3</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+
+        <StackLayout Orientation="Horizontal">
+            <CheckBox />
+            <Label
+                Text="Mail gönderilsin mi?"
+                HorizontalOptions="Center"
+                >
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Value="true">
+                        <Setter Property="FontAttributes"
+                                Value="Italic, Bold" />
+                        <Setter Property="FontSize"
+                                Value="18" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </StackLayout>
+
+        <Button Text="Oluştur" Command="{Binding CreateRandevuCommand}"  BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding IsCreate }" Value="False">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+        <Button Text="Güncelle" Command="{Binding EditRandevuCommand }" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding IsCreate}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+        
+        <Button Text="Sil" Command="{Binding DeleteRandevuCommand}" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding IsCreate}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+    </StackLayout>
 </ContentPage>

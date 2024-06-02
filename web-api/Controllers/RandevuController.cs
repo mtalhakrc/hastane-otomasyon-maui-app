@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using web_api.Models;
 using web_api.Services;
@@ -38,7 +38,7 @@ public class RandevuController : ControllerBase
                 UserName = r.Hasta.UserName,
                 Email = r.Hasta.Email
             }
-        });
+        }).ToList();
 
         return Ok(randevuViewModels);
     }
@@ -46,110 +46,28 @@ public class RandevuController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<RandevuViewModel>> GetRandevu(int id)
     {
-        var randevu = await _randevuService.GetRandevuByIdAsync(id);
-        if (randevu == null)
-        {
-            return NotFound();
-        }
-
-        var randevuViewModel = new RandevuViewModel
-        {
-            Id = randevu.Id,
-            Isim = randevu.Isim,
-            Tarih = randevu.Tarih,
-            Not = randevu.Not,
-            Doctor = new UserViewmodel.MeViewModel
-            {
-                UserName = randevu.Doctor.UserName,
-                Email = randevu.Doctor.Email
-            },
-            Hasta = new UserViewmodel.MeViewModel
-            {
-                UserName = randevu.Hasta.UserName,
-                Email = randevu.Hasta.Email
-            }
-        };
-
-        return Ok(randevuViewModel);
+        Console.WriteLine("burada");
+        return Ok();
     }
 
     [HttpPost]
     public async Task<ActionResult<RandevuViewModel>> CreateRandevu(RandevuViewModel randevuViewModel)
     {
-        // Create RandevuModel from RandevuViewModel
-        var randevu = new RandevuModel
-        {
-            Isim = randevuViewModel.Isim,
-            Tarih = randevuViewModel.Tarih,
-            Not = randevuViewModel.Not,
-            DoctorID = randevuViewModel.DoctorID,
-            HastaID = randevuViewModel.HastaID
-        };
-
-        // Call service method to create Randevu
-        var createdRandevu = await _randevuService.CreateRandevuAsync(randevu);
-
-        // Create RandevuViewModel from created RandevuModel
-        var createdRandevuViewModel = new RandevuViewModel
-        {
-            Id = createdRandevu.Id,
-            Isim = createdRandevu.Isim,
-            Tarih = createdRandevu.Tarih,
-            Not = createdRandevu.Not,
-            Doctor = new UserViewmodel.MeViewModel
-            {
-                UserName = createdRandevu.Doctor.UserName,
-                Email = createdRandevu.Doctor.Email
-            },
-            Hasta = new UserViewmodel.MeViewModel
-            {
-                UserName = createdRandevu.Hasta.UserName,
-                Email = createdRandevu.Hasta.Email
-            }
-        };
-
-        return CreatedAtAction(nameof(GetRandevu), new { id = createdRandevuViewModel.Id }, createdRandevuViewModel);
+        Console.WriteLine("burada");
+        return Ok();
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRandevu(int id, RandevuViewModel randevuViewModel)
+    public async Task<IActionResult> UpdateRandevu(int id)
     {
-        if (id != randevuViewModel.Id)
-        {
-            return BadRequest();
-        }
-
-        // Create RandevuModel from RandevuViewModel
-        var randevu = new RandevuModel
-        {
-            Id = randevuViewModel.Id,
-            Isim = randevuViewModel.Isim,
-            Tarih = randevuViewModel.Tarih,
-            Not = randevuViewModel.Not,
-            DoctorID = randevuViewModel.DoctorID,
-            HastaID = randevuViewModel.HastaID
-        };
-
-        // Call service method to update Randevu
-        var updatedRandevu = await _randevuService.UpdateRandevuAsync(randevu);
-
-        if (updatedRandevu == null)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        Console.WriteLine("burada");
+        return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRandevu(int id)
     {
-        var deleted = await _randevuService.DeleteRandevuAsync(id);
-        if (!deleted)
-        {
-            return NotFound();
-        }
-
-        return NoContent();
+        Console.WriteLine("burada");
+        return Ok();
     }
 }

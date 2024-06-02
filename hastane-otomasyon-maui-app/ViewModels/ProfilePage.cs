@@ -35,8 +35,6 @@ public partial class ProfilePageViewModel: ObservableObject
         {
             await Shell.Current.DisplayAlert("Hata",e.Message, "Tamam");
         }
-        await Shell.Current.DisplayAlert("Hata","Şifre başarı ile güncellendi", "Tamam");
-
         return;
     }
 

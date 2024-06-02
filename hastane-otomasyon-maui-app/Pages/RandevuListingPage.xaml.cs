@@ -6,41 +6,45 @@ namespace hastane_otomasyon_maui_app.Pages;
 public partial class RandevuListingPage : ContentPage
 {
     private RandevuListingPageViewModel _viewmodel;
+    private RandevuEditPageViewModel _randevuEditPageViewModel;
 
-    public RandevuListingPage(RandevuListingPageViewModel viewmodel)
+    public RandevuListingPage(RandevuListingPageViewModel viewmodel,RandevuEditPageViewModel randevuEditPageViewModel)
     {
         InitializeComponent();
         BindingContext = viewmodel;
         _viewmodel = viewmodel;
+        _randevuEditPageViewModel = randevuEditPageViewModel;
     }
     
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        var randevular  = await _viewmodel.LoadRandevularAsync();
-        ListView.ItemsSource = randevular;
+        var randevular = await _viewmodel.LoadRandevularAsync();
+        CollectionView.ItemsSource = randevular;
     }
 
     async void OnItemAdded(object sender, EventArgs e)
     {
-        // Handle the logic for adding a new appointment
-        var newRandevu = new RandevuModel
+        var navigationParameter = new Dictionary<string, object>
         {
-            Isim = "New Appointment",
-            Tarih = DateTime.Now,
-            DoctorID = "1",
-            HastaID = "1"
+            { "Item", new RandevuModel() },
+            { "IsCreate", true }
         };
-        
-        //await _viewmodel.CreateRandevuCommand.ExecuteAsync(newRandevu);
+        await Shell.Current.GoToAsync(nameof(RandevuEditPage), navigationParameter);
+
     }
 
-    async void OnListItemSelected(object sender, SelectedItemChangedEventArgs e)
+    async void OnListItemSelected(object sender, SelectionChangedEventArgs e)
     {
-        if (e.SelectedItem is RandevuModel selectedRandevu)
+        var current = (e.CurrentSelection.FirstOrDefault() as RandevuModel);
+        var navigationParameter = new Dictionary<string, object>
         {
-            // Navigate to an edit page or perform any desired action with the selected item
-            //await _viewmodel.EditRandevuCommand.ExecuteAsync(selectedRandevu);
+            { "Item", current },
+            { "IsCreate", false }
+        };
+        if (current != null)
+        {
+            await Shell.Current.GoToAsync(nameof(RandevuEditPage), navigationParameter);
         }
     }
 

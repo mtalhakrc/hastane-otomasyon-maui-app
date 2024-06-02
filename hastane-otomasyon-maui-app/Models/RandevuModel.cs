@@ -10,5 +10,4 @@ public class RandevuModel
         public MeModel Doctor { get; set; }
         public string HastaID { get; set; }
         public MeModel Hasta { get; set; }
-
 }
