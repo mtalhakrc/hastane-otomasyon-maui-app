@@ -14,26 +14,12 @@
         <DatePicker Date="{Binding Item.Tarih}" />
         <Entry Placeholder="Not" Text="{Binding Item.Not}" />
 
-        <Label Text="Doktor" FontSize="20" FontAttributes="Bold"/>
-        <Picker Title="Doktor Seçin" SelectedItem="{Binding Item.DoctorID, Mode=TwoWay}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Doktor 1</x:String>
-                    <x:String>Doktor 2</x:String>
-                    <x:String>Doktor 3</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
+        <Label Text="Doktor" FontSize="10" FontAttributes="Bold"/>
+        <Picker x:Name="DoctorPicker" ItemsSource="{Binding Doktorlar}" ItemDisplayBinding="{Binding Isim}" Title="Doktor Seçin" SelectedItem="{Binding SelectedDoktor, Mode=TwoWay}">
         </Picker>
 
-        <Label Text="Hasta" FontSize="20" FontAttributes="Bold"/>
-        <Picker Title="Hasta Seçin" SelectedItem="{Binding Item.HastaID, Mode=TwoWay}">
-            <Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Hasta 1</x:String>
-                    <x:String>Hasta 2</x:String>
-                    <x:String>Hasta 3</x:String>
-                </x:Array>
-            </Picker.ItemsSource>
+        <Label Text="Hasta" FontSize="10" FontAttributes="Bold"/>
+        <Picker x:Name="HastaPicker" ItemsSource="{Binding Hastalar}" ItemDisplayBinding="{Binding Isim}" Title="Hasta Seçin" SelectedItem="{Binding SelectedHasta, Mode=TwoWay}">
         </Picker>
 
 
@@ -55,14 +41,15 @@
             </Label>
         </StackLayout>
 
-        <Button Text="Oluştur" Command="{Binding CreateRandevuCommand}"  BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+        <Button Text="Oluştur" Command="{Binding CreateRandevuCommand}" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
             <Button.Triggers>
-                <DataTrigger TargetType="Button" Binding="{Binding IsCreate }" Value="False">
+                <DataTrigger TargetType="Button" Binding="{Binding IsCreate}" Value="False">
                     <Setter Property="IsVisible" Value="False" />
                 </DataTrigger>
             </Button.Triggers>
         </Button>
-        <Button Text="Güncelle" Command="{Binding EditRandevuCommand }" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+        
+        <Button Text="Güncelle" Command="{Binding EditRandevuCommand}" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
             <Button.Triggers>
                 <DataTrigger TargetType="Button" Binding="{Binding IsCreate}" Value="True">
                     <Setter Property="IsVisible" Value="False" />
@@ -70,12 +57,13 @@
             </Button.Triggers>
         </Button>
         
-        <Button Text="Sil" Command="{Binding DeleteRandevuCommand}" BackgroundColor="#007bff" TextColor="White" CornerRadius="10">
+        <Button Text="Sil" Command="{Binding DeleteRandevuCommand}" BackgroundColor="#dc3545" TextColor="White" CornerRadius="10">
             <Button.Triggers>
                 <DataTrigger TargetType="Button" Binding="{Binding IsCreate}" Value="True">
                     <Setter Property="IsVisible" Value="False" />
                 </DataTrigger>
             </Button.Triggers>
-        </Button>
+        </Button> 
+
     </StackLayout>
 </ContentPage>

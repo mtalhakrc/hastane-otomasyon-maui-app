@@ -14,7 +14,7 @@ public interface IRandevuService
 {
     Task<IEnumerable<RandevuModel>> GetAllRandevularAsync();
     Task<RandevuModel> GetRandevuByIdAsync(int id);
-    Task<RandevuModel> CreateRandevuAsync(RandevuModel randevu);
+    Task CreateRandevuAsync(RandevuModel randevu);
     Task<RandevuModel> UpdateRandevuAsync(RandevuModel randevu);
     Task<bool> DeleteRandevuAsync(int id);
 }
@@ -80,7 +80,7 @@ public class RandevuService : IRandevuService
         return response;
     }
 
-    public async Task<RandevuModel> CreateRandevuAsync(RandevuModel randevu)
+    public async Task CreateRandevuAsync(RandevuModel randevu)
     {
         var httpClient = CreateHttpClient();
         
@@ -90,17 +90,12 @@ public class RandevuService : IRandevuService
             throw new Exception("wrong credentials");
         }
 
-        if (result.StatusCode != HttpStatusCode.Created)
+        if (result.StatusCode != HttpStatusCode.OK)
         {
-            throw new Exception("an error occured");
+            throw new Exception(result.ReasonPhrase);
         }
 
-        var response = await result.Content.ReadFromJsonAsync<RandevuModel>();
-        if (response is null)
-        {
-            throw new Exception("internal server error");
-        }
-        return response;
+        return;
     }
 
     public async Task<RandevuModel> UpdateRandevuAsync(RandevuModel randevu)

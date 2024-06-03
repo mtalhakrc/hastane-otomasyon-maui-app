@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using web_api.Models;
 using web_api.Services;
 using web_api.ViewModels;
+namespace web_api.Controllers;
+
 
 [Route("api/[controller]")]
 [ApiController]
-public class RandevuController : ControllerBase
+public class RandevuController : Controller
 {
     private readonly IRandevuService _randevuService;
 
@@ -30,11 +29,13 @@ public class RandevuController : ControllerBase
             Not = r.Not,
             Doctor = new UserViewmodel.MeViewModel
             {
+                ID = r.Doctor.Id,
                 UserName = r.Doctor.UserName,
                 Email = r.Doctor.Email
             },
             Hasta = new UserViewmodel.MeViewModel
             {
+                ID = r.Doctor.Id,
                 UserName = r.Hasta.UserName,
                 Email = r.Hasta.Email
             }
@@ -51,23 +52,39 @@ public class RandevuController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RandevuViewModel>> CreateRandevu(RandevuViewModel randevuViewModel)
+
+    public async Task<IActionResult> Create([FromBody]RandevuViewModel model)
     {
-        Console.WriteLine("burada");
+        await _randevuService.CreateRandevuAsync(new RandevuModel()
+        {
+            Isim = model.Isim,
+            DoctorID = model.DoctorID,
+            HastaID = model.HastaID,
+            Tarih = model.Tarih,
+            Not = model.Not
+        });
         return Ok();
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateRandevu(int id)
+    public async Task<IActionResult> RandevuUpdate(int id, [FromBody] RandevuViewModel model)
     {
-        Console.WriteLine("burada");
+        await _randevuService.UpdateRandevuAsync(new RandevuModel()
+        {
+            Id = model.Id,
+            Isim = model.Isim,
+            DoctorID = model.DoctorID,
+            HastaID = model.HastaID,
+            Tarih = model.Tarih,
+            Not = model.Not
+        });
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteRandevu(int id)
     {
-        Console.WriteLine("burada");
+        await _randevuService.DeleteRandevuAsync(id);
         return Ok();
     }
 }
